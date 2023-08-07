@@ -8,17 +8,11 @@ def count_letters(string):
             dict_letters[letter_lower] += 1
         else:
             dict_letters[letter_lower] = 1
-    return dict_letters
+    return sorted(dict_letters.items(), key=lambda x: x[1], reverse=True)
 
-def print_report(file):
-    with open(path_to_file) as f:
-        file_contents = f.read()
-    
-    dict_letters = count_letters(file_contents)
-    most_common_letters = sorted(dict_letters.items(), key=lambda x: x[1], reverse=True)
-    
+def print_report(file, length, most_common_letters):
     print(f"--- Begin report of {file} ---")
-    print(f"{len(file_contents.split())} words found in the document")
+    print(f"{length} words found in the document")
     print("\n")
     for key, value in most_common_letters:
         if key.isalpha():
@@ -26,4 +20,14 @@ def print_report(file):
     print("--- End report ---")
 
 
-print_report(path_to_file)
+def main():
+    with open(path_to_file) as f:
+        file_contents = f.read()
+    
+    length_words = len(file_contents.split())
+    most_common_letters = count_letters(file_contents)
+
+    print_report(path_to_file, length_words, most_common_letters)
+
+
+main()
